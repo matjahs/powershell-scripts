@@ -1,0 +1,21 @@
+---
+parameters:
+  - name: ado_targetplatform
+  - name: topdesk_environment
+
+jobs:
+  - job:
+    displayName: Trigger AdjustVM on ${{ parameters.ado_targetplatform }}
+    timeoutInMinutes: 0 # Forever on on-premises agents
+    pool:
+      name: Radboud-OnPremise-Infra
+    steps:
+      - checkout: self
+      - task: PowerShell@2
+        displayName: 'Adjust Memory/CPU'
+        inputs:
+          targetType: filePath
+          filePath: '$(build.sourcesDirectory)\AdjustVM\AdjustMemoryCPU.ps1'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -CPU $(form_cpu) -Memory $(form_memory)'
+          workingDirectory: $(build.sourcesDirectory)\AdjustVM
+        condition: always() 
