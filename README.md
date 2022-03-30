@@ -2,7 +2,7 @@
 This repository holds all the building blocks to automate processes.
 
 # Examples
--   Os builds
+-   Os builds 
 -   VM adjustments
 -   Firewall rule changes
 -   User Permissions
