@@ -173,10 +173,36 @@ try {
     }
     
     Disconnect-Viserver -Server * -Confirm:$false
+
+    $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($TopdeskUser):$($TopdeskToken)"))
+    $Header = @{
+        "authorization" = "Basic $base64AuthInfo"
+    }
+
+    $BodyJson = @{
+        [
+  {
+    "op": "replace",
+    "path": "/status",
+    "value": "Afgerond"
+  }
+]
+}
+    #send change update
+    $Parameters = @{
+        Method      = "PATCH"
+        Uri         = "https://radboudumc-acceptatie.topdesk.net/tas/api/operatorChangeActivities/$ChangeNR"
+        Headers     = $Header
+        ContentType = "application/json"
+        Body        = $BodyJson
+    }
+    Invoke-RestMethod @Parameters
+
 }
 catch {
     Throw $error
     Disconnect-Viserver -Server * -Confirm:$false
+    Invoke-RestMethod https://radboudumc-acceptatie.topdesk.net/tas/api/operatorChangeActivities/$ChangeNR}
 }
 finally {
     # Wait for async logging is complete so no log messages are missed
