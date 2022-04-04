@@ -175,7 +175,7 @@ try {
     Disconnect-Viserver -Server * -Confirm:$false
 }
 catch {
-    Invoke-DefaultDevOpsExceptionHandler
+    Throw $error
     Disconnect-Viserver -Server * -Confirm:$false
 }
 finally {
