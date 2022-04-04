@@ -179,20 +179,18 @@ try {
         "authorization" = "Basic $base64AuthInfo"
     }
 
-    $BodyJson = @{  
-  {
+    $BodyJson = @{ 
     "op": "replace",
     "path": "/status",
     "value": "Afgerond"
-  }
-}
+    }
     #send change update
     $Parameters = @{
         Method      = "PATCH"
         Uri         = "https://radboudumc-acceptatie.topdesk.net/tas/api/operatorChangeActivities/$ChangeNR"
         Headers     = $Header
         ContentType = "application/json"
-        Body        = $BodyJson
+        Body        = $BodyJson|ConverTo-Json  
     }
     Invoke-RestMethod @Parameters
 
@@ -207,12 +205,10 @@ catch {
     }
 
     $BodyJson = @{
-  {
     "op": "replace",
     "path": "/status",
     "value": "Heropenen"
-  }
-}
+    }
     #send change update
     $Parameters = @{
         Method      = "PATCH"
