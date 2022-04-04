@@ -179,14 +179,12 @@ try {
         "authorization" = "Basic $base64AuthInfo"
     }
 
-    $BodyJson = @{
-        [
+    $BodyJson = @{  
   {
     "op": "replace",
     "path": "/status",
     "value": "Afgerond"
   }
-]
 }
     #send change update
     $Parameters = @{
@@ -209,13 +207,11 @@ catch {
     }
 
     $BodyJson = @{
-        [
   {
     "op": "replace",
     "path": "/status",
     "value": "Heropenen"
   }
-]
 }
     #send change update
     $Parameters = @{
