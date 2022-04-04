@@ -175,10 +175,6 @@ try {
     Disconnect-Viserver -Server * -Confirm:$false
 }
 catch {
-    Invoke-DefaultDevOpsExceptionHandler
+    Throw $error
     Disconnect-Viserver -Server * -Confirm:$false
-}
-finally {
-    # Wait for async logging is complete so no log messages are missed
-    Wait-Logging
 }
