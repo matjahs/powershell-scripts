@@ -45,10 +45,12 @@ jobs:
          method: 'PATCH'
          headers: '{Content-Type:application/json}' 
          body: |
+         [
               {
                "op": "replace",
                "path": "/status",
                "value": "Afgerond"
              }
+          ]
          urlSuffix: 'tas/api/operatorChangeActivities/WA2204%20009'
          waitForCompletion: 'false'
