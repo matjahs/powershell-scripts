@@ -35,3 +35,18 @@ jobs:
           arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR $(TopdeskRequest) -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Revert' )
+      - task: InvokeRESTAPI@1
+        inputs:
+          connectionType: 'connectedServiceName'
+          serviceConnection: 'TopDesk API'
+          method: 'PATCH'
+          body: |
+            [
+              {
+                "op": "replace",
+                "path": "/status",
+                "value": "Afgerond"
+              }
+            ]
+          urlSuffix: '/tas/api/operatorChangeActivities/${ChangeNR}'
+          waitForCompletion: 'false'
