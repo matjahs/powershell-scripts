@@ -43,7 +43,7 @@ stages:
         ado_targetplatform: 'dtap'
         topdesk_environment: 'prd'
   - stage: API
-   jobs:
+    jobs:
       - task: InvokeRESTAPI@2
         inputs:
           connectionType: 'connectedServiceName'
