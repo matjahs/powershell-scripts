@@ -48,7 +48,7 @@ jobs:
           [
               {
                "op": "replace",
-               "path": "status",
+               "path": "/status",
                "value": "Afgerond"
              }
           ]
