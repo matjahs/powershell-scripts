@@ -37,7 +37,7 @@ jobs:
         condition: eq(variables['form_input'], 'Revert' )
   - job:
     pool: server
-      - task: InvokeRESTAPI@1
+      - task: InvokeRESTAPI@2
         inputs:
           connectionType: 'connectedServiceName'
           serviceConnection: 'TopDesk API'
