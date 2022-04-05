@@ -43,6 +43,10 @@ jobs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
          method: 'PATCH'
+         headers: |
+         {
+          "Content-Type":"application/json"
+         }
          body: |
            [
              {
