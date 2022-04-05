@@ -44,7 +44,7 @@ stages:
         topdesk_environment: 'prd'
   - stage: API
     jobs:
-    Steps:
+    steps:
      - task: InvokeRESTAPI@1
        inputs:
          connectionType: 'connectedServiceName'
