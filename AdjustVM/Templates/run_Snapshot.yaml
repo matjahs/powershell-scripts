@@ -45,7 +45,7 @@ jobs:
          method: 'PATCH'
          headers: '{Content-Type:application/json}' 
          body: |
-         [
+          [
               {
                "op": "replace",
                "path": "/status",
