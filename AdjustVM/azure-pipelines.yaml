@@ -42,3 +42,20 @@ stages:
       parameters:
         ado_targetplatform: 'dtap'
         topdesk_environment: 'prd'
+  - stage: API
+   jobs:
+      - task: InvokeRESTAPI@2
+        inputs:
+          connectionType: 'connectedServiceName'
+          serviceConnection: 'TopDesk API'
+          method: 'PATCH'
+          body: |
+            [
+              {
+                "op": "replace",
+                "path": "/status",
+                "value": "Afgerond"
+              }
+            ]
+          urlSuffix: '/tas/api/operatorChangeActivities/${ChangeNR}'
+          waitForCompletion: 'false'
