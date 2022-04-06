@@ -11,7 +11,7 @@ jobs:
       name: RadboudUMC On-premise
     steps:
       - checkout: self
-      - task: Packerbuild@1
+      - task: Powershell@2
         displayName: 'Template Deployment'
         inputs:
           targetType: filePath
