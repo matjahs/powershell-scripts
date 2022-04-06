@@ -15,10 +15,7 @@ param(
     [string]$vmname,
 
     [parameter(Mandatory = $true)]
-    [string]$cluster,
-
-    [parameter(Mandatory = $true)]
-    [int]$disksize
+    [string]$cluster
 )
 
 # Define target environment
@@ -33,4 +30,4 @@ switch ( $targetenvironment ) {
     }
 }
 
-.\packer.exe build -var 'vsphere-server=$Vcenters' -var 'vsphere-user=$vsphere_user' -var 'vsphere-password=$vsphere_password' -var 'vm-name=$vmname' -var 'vsphere-cluster=$cluster' -var 'os-disk-size=$disksize' 'Win2019\windows2019.json'
+.\packer.exe build -var 'vsphere-server=$Vcenters' -var 'vsphere-user=$vsphere_user' -var 'vsphere-password=$vsphere_password' -var 'vm-name=$vmname' -var 'vsphere-cluster=$cluster' 'Win2019\windows2019.json'
