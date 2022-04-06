@@ -1,1 +1,1 @@
-.\packer.exe
+.\packer.exe build -var 'vsphere-server=test' -var 'vsphere-user=test' -var 'vsphere-password=test' -var 'vm-name=test' -var 'vsphere-cluster=test' -var 'os-disk-size=50' 'Win2019\windows2019.json'
