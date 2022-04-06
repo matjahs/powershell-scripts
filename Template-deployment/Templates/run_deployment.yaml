@@ -1,0 +1,20 @@
+---
+parameters:
+  - name: ado_targetplatform
+  - name: environment
+
+jobs:
+  - job:
+    displayName: Trigger Template Deployment on ${{ parameters.ado_targetplatform }}
+    timeoutInMinutes: 0 # Forever on on-premises agents
+    pool:
+      name: RadboudUMC On-premise
+    steps:
+      - checkout: self
+      - task: PowerShell@2
+        displayName: 'Template Deployment'
+        inputs:
+          targetType: filePath
+          filePath: '$(build.sourcesDirectory)\Packer\packer.exe'
+          arguments: 'build -var 'vsphere-server=test' -var 'vsphere-user=test' -var 'vsphere-password=test' -var 'vm-name=test' -var 'vsphere-cluster=test' -var 'os-disk-size=50' .\Win2019\windows2019.json'
+          workingDirectory: $(build.sourcesDirectory)\Packer
