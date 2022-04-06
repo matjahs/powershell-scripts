@@ -18,7 +18,7 @@ param(
     [string]$cluster,
 
     [parameter(Mandatory = $true)]
-    [string]$disksize
+    [int]$disksize
 )
 
 # Define target environment
