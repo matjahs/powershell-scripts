@@ -30,7 +30,7 @@
   
         "storage": [
           {
-            "disk_size": "{{user `os-disk-size`}}",
+            "disk_size": "40960",
             "disk_thin_provisioned": "{{user `disk-thin-provision`}}"
           }
         ],
