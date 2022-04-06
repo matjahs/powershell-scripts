@@ -51,13 +51,13 @@
         ],
   
         "floppy_files": [
-            "autounattend.xml",
-            "scripts/disable-network-discovery.cmd",
-            "scripts/disable-server-manager.ps1",
-            "scripts/enable-rdp.cmd",
-            "scripts/enable-winrm.ps1",
-            "scripts/install-vm-tools.cmd",
-            "scripts/set-temp.ps1"
+            "Win2019/autounattend.xml",
+            "Win2019/scripts/disable-network-discovery.cmd",
+            "Win2019/scripts/disable-server-manager.ps1",
+            "Win2019/scripts/enable-rdp.cmd",
+            "Win2019/scripts/enable-winrm.ps1",
+            "Win2019/scripts/install-vm-tools.cmd",
+            "Win2019/scripts/set-temp.ps1"
         ]
     }
   ],
