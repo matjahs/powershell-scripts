@@ -30,4 +30,4 @@ switch ( $targetenvironment ) {
     }
 }
 
-.\packer.exe build -var "vsphere-server=$Vcenters" -var "vsphere-user=$vsphere_user" -var "vsphere-password=$vsphere_password" -var "vm-name=$vmname" -var "vsphere-cluster=$cluster" 'Win2019\windows2019.json'
+.\packer.exe build -var "vsphere-server=$Vcenters" -var "vsphere-user=$vsphere_user" -var "vsphere-password=$vsphere_password" -var "vm-name=$vmname" -var "vsphere-cluster=$cluster" -var "vsphere-datastore=Datacenter Test01" 'Win2019\windows2019.json'
