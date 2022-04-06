@@ -47,7 +47,8 @@
   
         "iso_paths": [
           "{{user `os_iso_path`}}",
-          "[] /vmimages/tools-isoimages/windows.iso"
+          "[local_vmhost-r51] ISO/SW_DVD9_Win_Server_STD_CORE_2019_1909.4_64Bit_English_DC_STD_MLF_X22-29333.ISO"
+          
         ],
   
         "floppy_files": [
