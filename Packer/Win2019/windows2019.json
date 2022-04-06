@@ -38,7 +38,7 @@
           
         "network_adapters": [
           {
-            "network": "{{user `vsphere-network`}}",
+            "network": "VM Network",
             "network_card": "vmxnet3"
           }
         ],
