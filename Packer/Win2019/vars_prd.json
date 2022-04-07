@@ -15,6 +15,5 @@
     "os-disk-size": "40960",
     "disk-thin-provision": "true",
     
-    "winadmin-password": "S3cr3t0!",
-    
+    "winadmin-password": "S3cr3t0!"    
  }
