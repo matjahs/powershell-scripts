@@ -42,6 +42,26 @@ jobs:
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
-         method: 'GET'
+         method: 'PATCH'
+         headers: |
+            {
+              "Content-Type":"Content-Type: application/json-patch+json", 
+              "PlanUrl": "$(system.CollectionUri)", 
+              "ProjectId": "$(system.TeamProjectId)", 
+              "HubName": "$(system.HostType)", 
+              "PlanId": "$(system.PlanId)", 
+              "JobId": "$(system.JobId)", 
+              "TimelineId": "$(system.TimelineId)", 
+              "TaskInstanceId": "$(system.TaskInstanceId)", 
+              "AuthToken": "$(system.AccessToken)"
+            }
+         body: |
+          [  
+            {
+               "op": "replace",
+               "path": "/status",
+               "value": "Afgerond"
+            }
+          ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
          waitForCompletion: 'false'
