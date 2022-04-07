@@ -16,5 +16,5 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\Packer\run-packer.ps1'
-          arguments: '-vsphere_user $(vcusername) -vsphere_password $(vcpassword) -vmname $(VMname) -cluster $(cluster) -targetenvironment ${{ parameters.environment}}'
+          arguments: '-vsphere_user $(vcusername) -vsphere_password $(vcpassword) -vmname $(VMname) -targetenvironment ${{ parameters.environment}}'
           workingDirectory: $(build.sourcesDirectory)\Packer
