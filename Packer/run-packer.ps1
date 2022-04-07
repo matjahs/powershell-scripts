@@ -12,10 +12,8 @@ param(
     [string]$targetenvironment = 'DEV',
 
     [parameter(Mandatory = $true)]
-    [string]$vmname,
+    [string]$vmname
 
-    [parameter(Mandatory = $true)]
-    [string]$cluster
 )
 
 # Define target environment
