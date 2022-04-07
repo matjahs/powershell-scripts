@@ -2,10 +2,10 @@
     "vsphere-user": "",
     "vsphere-password": "",
     
-    "vsphere-datacenter": "",
+    "vsphere-datacenter": "Datacenter Test01",
     "vsphere-cluster": "",
     "vsphere-network": "VM Network",
-    "vsphere-datastore": "",
+    "vsphere-datastore": "local_vmhost-r51",
     "vsphere-folder": "Templates",
       
     "vm-name": "",
