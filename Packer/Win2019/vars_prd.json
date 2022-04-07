@@ -3,7 +3,7 @@
     "vsphere-password": "",
     
     "vsphere-datacenter": "Datacenter R",
-    "vsphere-cluster": "",
+    "vsphere-cluster": "Datacenter R",
     "vsphere-network": "datacenter|uitrolepg_intra_dmz|umcn",
     "vsphere-datastore": "SSAN-VMCLPRD-G02-P12-P-LUN02",
     "vsphere-folder": "Templates",
