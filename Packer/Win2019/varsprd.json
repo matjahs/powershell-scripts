@@ -1,0 +1,20 @@
+{
+    "vsphere-user": "",
+    "vsphere-password": "",
+    
+    "vsphere-datacenter": "",
+    "vsphere-cluster": "",
+    "vsphere-network": "datacenter|uitrolepg_intra_dmz|umcn",
+    "vsphere-datastore": "SSAN-VMCLPRD-G02-P12-P-LUN02",
+    "vsphere-folder": "Templates",
+      
+    "vm-name": "",
+    "vm-cpu-num": "2",
+    "vm-mem-size": "4096",
+    
+    "os-disk-size": "40960",
+    "disk-thin-provision": "true",
+    
+    "winadmin-password": "S3cr3t0!",
+    
+ }
