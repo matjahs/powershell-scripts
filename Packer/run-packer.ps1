@@ -22,12 +22,14 @@ param(
 switch ( $targetenvironment ) {
     "DEV" {
         $Vcenters = @("umcvct01.umcn.nl")
+        $varfile = 'vars_tst.json'
         Write-Log -Message "The following vCenter servers have been filtered {0}" -Arguments ( $Vcenters -join ", " )  -Level DEBUG
     }
     "PRD" {
         $Vcenters = @("umcvcp01.umcn.nl")
+        $varfile = 'vars_prd.json'
         Write-Log -Message "The following vCenter servers have been filtered {0}" -Arguments ( $Vcenters -join ", " )  -Level DEBUG
     }
 }
 
-.\packer.exe build '-var-file=Win2019\vars.json' -var "vsphere-server=$Vcenters" -var "vsphere-user=$vsphere_user" -var "vsphere-password=$vsphere_password" -var "vm-name=$vmname" -var "vsphere-cluster=$cluster" -var "vsphere-datastore=local_vmhost-r51" -var "vsphere-datacenter=Datacenter Test01" 'Win2019\windows2019.json'
+.\packer.exe build "-var-file=Win2019\$varfile" -var "vsphere-server=$Vcenters" -var "vsphere-user=$vsphere_user" -var "vsphere-password=$vsphere_password" -var "vm-name=$vmname" -var "vsphere-cluster=$cluster" -var "vsphere-datastore=local_vmhost-r51" -var "vsphere-datacenter=Datacenter Test01" 'Win2019\windows2019.json'
