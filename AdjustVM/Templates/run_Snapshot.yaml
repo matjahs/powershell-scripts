@@ -56,4 +56,4 @@ jobs:
             }
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
-         waitForCompletion: 'false'
+         waitForCompletion: 'true'
