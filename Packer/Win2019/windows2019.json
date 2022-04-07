@@ -46,8 +46,7 @@
         "shutdown_command": "shutdown /s /t 5",
   
         "iso_paths": [
-          "[local_vmhost-r51]ISO/SW_DVD9_Win_Server_STD_CORE_2019_1909.4_64Bit_English_DC_STD_MLF_X22-29333.ISO"
-          
+          "{{user `os_iso_path`}}"           
         ],
   
         "floppy_files": [
