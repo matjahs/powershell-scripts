@@ -46,14 +46,6 @@ jobs:
          headers: |
             {
               "Content-Type": "application/json-patch+json"
-              "PlanUrl": "$(system.CollectionUri)", 
-              "ProjectId": "$(system.TeamProjectId)", 
-              "HubName": "$(system.HostType)", 
-              "PlanId": "$(system.PlanId)", 
-              "JobId": "$(system.JobId)", 
-              "TimelineId": "$(system.TimelineId)", 
-              "TaskInstanceId": "$(system.TaskInstanceId)", 
-              "AuthToken": "$(system.AccessToken)"
             }
          body: |
           [  
