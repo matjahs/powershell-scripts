@@ -3,7 +3,7 @@
     "vsphere-password": "",
     
     "vsphere-datacenter": "Datacenter Test01",
-    "vsphere-cluster": "",
+    "vsphere-cluster": "Test Cluster",
     "vsphere-network": "VM Network",
     "vsphere-datastore": "local_vmhost-r51",
     "vsphere-folder": "Templates",
