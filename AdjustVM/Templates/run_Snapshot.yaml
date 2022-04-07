@@ -4,7 +4,7 @@ parameters:
   - name: topdesk_environment
 
 jobs:
-  - job:
+  - job: Snapshot
     displayName: Trigger Create Snapshot on ${{ parameters.ado_targetplatform }}
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
@@ -36,6 +36,7 @@ jobs:
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Revert' )
   - job: api
+    dependsOn: Snapshot
     pool: server
     steps:
      - task: InvokeRESTAPI@1
@@ -56,4 +57,4 @@ jobs:
             }
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
-         waitForCompletion: 'true'
+         waitForCompletion: 'false'
