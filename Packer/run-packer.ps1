@@ -24,7 +24,7 @@ switch ( $targetenvironment ) {
         Write-Log -Message "The following vCenter servers have been filtered {0}" -Arguments ( $Vcenters -join ", " )  -Level DEBUG
     }
     "PRD" {
-        $Vcenters = @("umcvcp01.umcn.nl")
+        $Vcenters = @("umcvcp02.umcn.nl")
         $varfile = 'vars_prd.json'
         Write-Log -Message "The following vCenter servers have been filtered {0}" -Arguments ( $Vcenters -join ", " )  -Level DEBUG
     }
