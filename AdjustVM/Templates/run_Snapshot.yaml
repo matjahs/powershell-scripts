@@ -42,15 +42,6 @@ jobs:
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
-         method: 'PATCH'
-         headers: '{Content-Type:application/json-patch+json}' 
-         body: |
-          [  
-            {
-               "op": "replace",
-               "path": "/status",
-               "value": "Afgerond"
-            }
-          ]
+         method: 'GET'
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
          waitForCompletion: 'false'
