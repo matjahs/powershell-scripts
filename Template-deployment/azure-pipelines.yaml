@@ -1,0 +1,30 @@
+---
+# Pipelines variables
+
+name: DeployTemplate
+pr: none # will disable PR builds (but not CI builds)
+
+variables:
+- name: VSTS_ARM_REST_IGNORE_SSL_ERRORS
+  value: true
+- name: generic_branch 
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    value: main
+  ${{ if ne(variables['Build.SourceBranchName'], 'main') }}:
+    value: dev
+
+stages:
+  - stage: TEST_Deployment
+    condition: and(eq(variables['test'], 'true' ), ne(variables['Build.SourceBranchName'], 'main') )   
+    jobs:
+    - template: Templates/run_deployment.yaml 
+      parameters:
+        ado_targetplatform: 'test'
+        environment: 'dev'
+  - stage: DTAP_Deployment
+    condition: and( eq(variables['test'], 'false' ) , eq(variables['Build.SourceBranchName'], 'main') )
+    jobs:
+    - template: Templates/run_deployment.yaml
+      parameters:
+        ado_targetplatform: 'dtap'
+        environment: 'prd'

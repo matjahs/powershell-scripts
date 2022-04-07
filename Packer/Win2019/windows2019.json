@@ -1,0 +1,72 @@
+{
+  "builders": [
+    {
+        "type": "vsphere-iso",
+  
+        "vcenter_server": "{{user `vsphere-server`}}",
+        "username": "{{user `vsphere-user`}}",
+        "password": "{{user `vsphere-password`}}",
+        "insecure_connection": "true",
+  
+        "datacenter": "{{user `vsphere-datacenter`}}",
+        "cluster": "{{user `vsphere-cluster`}}",
+        "datastore": "{{user `vsphere-datastore`}}",
+        "folder": "{{user `vsphere-folder`}}",
+  
+        "communicator": "winrm",
+        "winrm_username": "Administrator",
+        "winrm_password": "{{user `winadmin-password`}}",
+        "winrm_timeout": "1h30m",
+  
+        "convert_to_template": "true",
+
+        "vm_name": "{{user `vm-name`}}",
+        "guest_os_type": "windows9Server64Guest",
+  
+        "CPUs": "{{user `vm-cpu-num`}}",
+        "RAM": "{{user `vm-mem-size`}}",
+        "RAM_reserve_all": true,
+        "firmware": "bios",
+  
+        "storage": [
+          {
+            "disk_size": "40960",
+            "disk_thin_provisioned": "{{user `disk-thin-provision`}}"
+          }
+        ],
+        "disk_controller_type": "lsilogic-sas",
+          
+        "network_adapters": [
+          {
+            "network": "VM Network",
+            "network_card": "vmxnet3"
+          }
+        ],
+
+        "shutdown_command": "shutdown /s /t 5",
+  
+        "iso_paths": [
+          "[local_vmhost-r51]ISO/SW_DVD9_Win_Server_STD_CORE_2019_1909.4_64Bit_English_DC_STD_MLF_X22-29333.ISO"
+          
+        ],
+  
+        "floppy_files": [
+            "Win2019/autounattend.xml",
+            "Win2019/scripts/disable-network-discovery.cmd",
+            "Win2019/scripts/disable-server-manager.ps1",
+            "Win2019/scripts/enable-rdp.cmd",
+            "Win2019/scripts/enable-winrm.ps1",
+            "Win2019/scripts/install-vm-tools.cmd",
+            "Win2019/scripts/set-temp.ps1"
+        ]
+    }
+  ],
+  
+  "provisioners": [
+    {
+      "type": "windows-shell",
+      "inline": ["ipconfig /all"]
+    }
+  ]
+   
+}
