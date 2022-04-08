@@ -1,7 +1,7 @@
 ---
 # Pipelines variables
 
-name: AdjustVM_$(Topdeskrequest)
+name: AdjustVM_$(Changenummer)
 pr: none # will disable PR builds (but not CI builds)
 
 variables:

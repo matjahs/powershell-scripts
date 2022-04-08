@@ -16,7 +16,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\CreateSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(TopdeskRequest)" -requestor "$(TopdeskInitiator)" -scheduled $(form_snapshot_schedule) -snapshotTime "$(form_snapshot_time)"'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -scheduled $(form_snapshot_schedule) -snapshotTime "$(form_snapshot_time)"'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Create' )
       - task: PowerShell@2
@@ -24,7 +24,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\RemoveSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(TopdeskRequest)" -scheduled $(form_snapshot_schedule)'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -scheduled $(form_snapshot_schedule)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Remove' )
       - task: PowerShell@2
@@ -32,7 +32,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\RevertSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(TopdeskRequest)" -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Revert' )
   - job: UpdateTopdesk
@@ -60,7 +60,7 @@ jobs:
                "value": "Afgerond"
             }
           ]
-         urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
+         urlSuffix: 'tas/api/operatorChangeActivities/$(Activiteitnummer)'
          waitForCompletion: 'false'
        condition: in(variables['SnapshotResult'], 'Succeeded')
      - task: InvokeRESTAPI@1
@@ -81,6 +81,6 @@ jobs:
                "value": "Reactie ontvangen"
             }
           ]
-         urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
+         urlSuffix: 'tas/api/operatorChangeActivities/$(Activiteitnummer)'
          waitForCompletion: 'false'
        condition: in(variables['SnapshotResult'], 'SucceededWithIssues', 'Failed')
