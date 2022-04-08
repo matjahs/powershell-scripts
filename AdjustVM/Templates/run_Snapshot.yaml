@@ -35,7 +35,7 @@ jobs:
           arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR $(TopdeskRequest) -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Revert' )
-  - job: Update Topdesk
+  - job: UpdateTopdesk
     dependsOn: Snapshot
     condition: always()
     variables:
@@ -43,7 +43,7 @@ jobs:
     pool: server
     steps:
      - task: InvokeRESTAPI@1
-       displayName: activiteit afsluiten
+       displayName: 'activiteit afsluiten'
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
@@ -64,7 +64,7 @@ jobs:
          waitForCompletion: 'false'
        condition: and(in(variables['SnapshotResult'], 'Succeeded','skipped'))
      - task: InvokeRESTAPI@1
-       displayName: activiteit mislukt
+       displayName: 'activiteit mislukt'
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
