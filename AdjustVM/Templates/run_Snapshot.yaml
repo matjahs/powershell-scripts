@@ -53,7 +53,12 @@ jobs:
               "Content-Type": "application/json-patch+json"
             }
          body: |
-          [  
+          [ 
+            {
+               "op": "add",
+               "path": "/progressTrail",
+               "value": "Snapshot activiteit is geslaagd"
+            },   
             {
                "op": "replace",
                "path": "/status",
@@ -100,7 +105,12 @@ jobs:
               "Content-Type": "application/json-patch+json"
             }
          body: |
-          [  
+          [ 
+            {
+               "op": "add",
+               "path": "/progressTrail",
+               "value": "Snapshot wijziging is afgerond"
+            },  
             {
                "op": "replace",
                "path": "/status",
