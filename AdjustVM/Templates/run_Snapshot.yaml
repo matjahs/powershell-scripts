@@ -102,6 +102,6 @@ jobs:
                "value": "Afgerond"
             }
           ]
-         urlSuffix: 'tas/api/operatorChangeActivities/$(Changenummer)'
+         urlSuffix: 'tas/api/operatorChangeActivities/?change=$(Changenummer)'
          waitForCompletion: 'false'
        condition: and(in(variables['SnapshotResult'], 'Succeeded'), in(variables['form_input'], 'Remove', 'Revert'))
