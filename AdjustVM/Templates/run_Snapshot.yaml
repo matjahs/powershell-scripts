@@ -38,7 +38,7 @@ jobs:
   - job: Update Topdesk
     dependsOn: Snapshot
     condition: always()
-    Variables:
+    variables:
       SnapshotResult: $[ dependencies.Snapshot.result ]
     pool: server
     steps:
