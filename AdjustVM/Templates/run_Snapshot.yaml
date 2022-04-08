@@ -104,4 +104,4 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(Changenummer)'
          waitForCompletion: 'false'
-       condition: and(in(variables['SnapshotResult'], 'Succeeded'), eq(variables['form_input'], 'Remove'))
+       condition: and(in(variables['SnapshotResult'], 'Succeeded'), in(variables['form_input'], 'Remove', 'Revert'))
