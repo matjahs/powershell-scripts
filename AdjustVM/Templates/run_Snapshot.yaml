@@ -35,11 +35,15 @@ jobs:
           arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR $(TopdeskRequest) -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Revert' )
-  - job: api
+  - job: Update Topdesk
     dependsOn: Snapshot
+    condition: always()
+    Variables:
+      SnapshotResult: $[ dependencies.Snapshot.result ]
     pool: server
     steps:
      - task: InvokeRESTAPI@1
+       displayname: 'activiteit afsluiten'
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
@@ -58,3 +62,25 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
          waitForCompletion: 'false'
+       condition: and(in(variables['SnapshotResult'], 'Succeeded','skipped'))
+     - task: InvokeRESTAPI@1
+       displayname: 'activiteit mislukt'
+       inputs:
+         connectionType: 'connectedServiceName'
+         serviceConnection: 'TopDesk API'
+         method: 'PATCH'
+         headers: |
+            {
+              "Content-Type": "application/json-patch+json"
+            }
+         body: |
+          [  
+            {
+               "op": "replace",
+               "path": "/status",
+               "value": "Reactie ontvangen"
+            }
+          ]
+         urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
+         waitForCompletion: 'false'
+       condition: and(in(variables['SnapshotResult'], 'SucceededWithIssues'))
