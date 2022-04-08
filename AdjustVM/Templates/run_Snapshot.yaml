@@ -84,3 +84,24 @@ jobs:
          urlSuffix: 'tas/api/operatorChangeActivities/$(Activiteitnummer)'
          waitForCompletion: 'false'
        condition: in(variables['SnapshotResult'], 'SucceededWithIssues', 'Failed')
+     - task: InvokeRESTAPI@1
+       displayName: 'Change afsluiten'
+       inputs:
+         connectionType: 'connectedServiceName'
+         serviceConnection: 'TopDesk API'
+         method: 'PATCH'
+         headers: |
+            {
+              "Content-Type": "application/json-patch+json"
+            }
+         body: |
+          [  
+            {
+               "op": "replace",
+               "path": "/status",
+               "value": "Afgerond"
+            }
+          ]
+         urlSuffix: 'tas/api/operatorChangeActivities/$(Changenummer)'
+         waitForCompletion: 'false'
+       condition: and(in(variables['SnapshotResult'], 'Succeeded'), eq(variables['form_input'], 'Remove','Revert' ))
