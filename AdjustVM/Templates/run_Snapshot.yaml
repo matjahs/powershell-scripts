@@ -43,7 +43,7 @@ jobs:
     pool: server
     steps:
      - task: InvokeRESTAPI@1
-       displayName: 'activiteit afsluiten'
+       displayName: 'Activiteit afsluiten'
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
@@ -64,7 +64,7 @@ jobs:
          waitForCompletion: 'false'
        condition: in(variables['SnapshotResult'], 'Succeeded')
      - task: InvokeRESTAPI@1
-       displayName: 'activiteit mislukt'
+       displayName: 'Activiteit mislukt'
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
@@ -75,6 +75,11 @@ jobs:
             }
          body: |
           [  
+            {
+               "op": "add",
+               "path": "/progressTrail",
+               "value": "Snapshot aanmaken of verwijderen is mislukt, controleer de pipeline in Azure Devops voor meer informatie. https://dev.azure.com/RadboudumcIT/Informatie%20Management/_build?definitionId=81&_a=summary"
+            },
             {
                "op": "replace",
                "path": "/status",
