@@ -43,7 +43,7 @@ jobs:
     pool: server
     steps:
      - task: InvokeRESTAPI@1
-       displayname: activiteit afsluiten
+       displayName: activiteit afsluiten
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
@@ -64,7 +64,7 @@ jobs:
          waitForCompletion: 'false'
        condition: and(in(variables['SnapshotResult'], 'Succeeded','skipped'))
      - task: InvokeRESTAPI@1
-       displayname: activiteit mislukt
+       displayName: activiteit mislukt
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
