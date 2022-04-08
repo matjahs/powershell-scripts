@@ -62,7 +62,7 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
          waitForCompletion: 'false'
-       condition: (variables['SnapshotResult'], 'Succeeded','skipped')
+       condition: in(variables['SnapshotResult'], 'Succeeded','skipped')
      - task: InvokeRESTAPI@1
        displayName: 'activiteit mislukt'
        inputs:
