@@ -5,7 +5,7 @@ parameters:
 
 jobs:
   - job: Snapshot
-    displayName: Trigger Create Snapshot on ${{ parameters.ado_targetplatform }}
+    displayName: Trigger Snapshot on ${{ parameters.ado_targetplatform }}
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
       name: RadboudUMC On-premise
@@ -24,7 +24,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\RemoveSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR $(TopdeskRequest) -scheduled $(form_snapshot_schedule)'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(TopdeskRequest)" -scheduled $(form_snapshot_schedule)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Remove' )
       - task: PowerShell@2
@@ -32,7 +32,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\RevertSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR $(TopdeskRequest) -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(TopdeskRequest)" -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Revert' )
   - job: UpdateTopdesk
