@@ -83,4 +83,4 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
          waitForCompletion: 'false'
-       condition: in(variables['SnapshotResult'], 'SucceededWithIssues')
+       condition: in(variables['SnapshotResult'], 'SucceededWithIssues', 'Failed')
