@@ -4,7 +4,7 @@ parameters:
   - name: topdesk_environment
 
 jobs:
-  - job:
+  - job: Snapshot
     displayName: Trigger Create Snapshot on ${{ parameters.ado_targetplatform }}
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
@@ -35,15 +35,23 @@ jobs:
           arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR $(TopdeskRequest) -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Revert' )
-  - job: api
+  - job: UpdateTopdesk
+    dependsOn: Snapshot
+    condition: always()
+    variables:
+      SnapshotResult: $[ dependencies.Snapshot.result ]
     pool: server
     steps:
      - task: InvokeRESTAPI@1
+       displayName: 'activiteit afsluiten'
        inputs:
          connectionType: 'connectedServiceName'
          serviceConnection: 'TopDesk API'
          method: 'PATCH'
-         headers: '{Content-Type:application/json}' 
+         headers: |
+            {
+              "Content-Type": "application/json-patch+json"
+            }
          body: |
           [  
             {
@@ -54,3 +62,25 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
          waitForCompletion: 'false'
+       condition: in(variables['SnapshotResult'], 'Succeeded')
+     - task: InvokeRESTAPI@1
+       displayName: 'activiteit mislukt'
+       inputs:
+         connectionType: 'connectedServiceName'
+         serviceConnection: 'TopDesk API'
+         method: 'PATCH'
+         headers: |
+            {
+              "Content-Type": "application/json-patch+json"
+            }
+         body: |
+          [  
+            {
+               "op": "replace",
+               "path": "/status",
+               "value": "Reactie ontvangen"
+            }
+          ]
+         urlSuffix: 'tas/api/operatorChangeActivities/$(TopdeskRequest)'
+         waitForCompletion: 'false'
+       condition: in(variables['SnapshotResult'], 'SucceededWithIssues', 'Failed')
