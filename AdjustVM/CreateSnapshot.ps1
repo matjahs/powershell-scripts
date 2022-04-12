@@ -43,7 +43,7 @@ param(
     [string]$requestor,
 
     [parameter(Mandatory = $false)]
-    [string]$snapshotTime
+    [DateTime]$snapshotTime
 )
 
 # Forcing TLS12
