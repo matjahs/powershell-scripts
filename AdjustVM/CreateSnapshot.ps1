@@ -98,13 +98,13 @@ try {
 
     Write-Log -Message "Checking if snapshot for {0} must be scheduled" -Arguments $Vm -Level INFO    
     if ($snapshottime -ne "empty") {
-        $snapshottime = [DateTime]$snapshottime
+        $time = [DateTime]$snapshottime
         $SnapshotName = 'automated scheduled snapshot for {0}' -f $ChangeNR
         $PoweronName = 'Power on {0} for {1}' -f ($Vm,$ChangeNR)
-        $SnapshotDescription = 'automated scheduled snapshot of {0} for {1} created on {2} UTC' -f ($Vm, $requestor, $SnapshotTime)
+        $SnapshotDescription = 'automated scheduled snapshot of {0} for {1} created on {2} UTC' -f ($Vm, $requestor, $time)
         $snapMemory = $false
         $snapQuiesce = $false
-        Write-Log -Message "Scheduling snapshot for {0} on {1} UTC" -Arguments @($Vm, $SnapshotTime) -Level INFO
+        Write-Log -Message "Scheduling snapshot for {0} on {1} UTC" -Arguments @($Vm, $time) -Level INFO
         $si = get-view ServiceInstance -Server $Server
         $scheduledTaskManager = Get-View $si.Content.ScheduledTaskManager -Server $Server
         $spec = New-Object VMware.Vim.ScheduledTaskSpec
@@ -113,7 +113,7 @@ try {
         $spec.Enabled = $true
         $spec.Notification = $requestor
         $spec.Scheduler = New-Object VMware.Vim.OnceTaskScheduler
-        $spec.Scheduler.runat = (Get-Date $snapshotTime)
+        $spec.Scheduler.runat = (Get-Date $time)
         $spec.Action = New-Object VMware.Vim.MethodAction
         $spec.Action.Name = "CreateSnapshot_Task"
 
@@ -129,7 +129,7 @@ try {
         $spec.Description = "Power on $($vm.Name)"        
         $spec.Enabled = $true
         $spec.Scheduler = New-Object VMware.Vim.OnceTaskScheduler
-        $spec.Scheduler.runat = (Get-Date $snapshotTime).AddMinutes(5)
+        $spec.Scheduler.runat = (Get-Date $time).AddMinutes(5)
         $spec.Action = New-Object VMware.Vim.MethodAction
         $spec.Action.Name = "PowerOnVM_Task"
         $scheduledTaskManager.CreateObjectScheduledTask($vm.ExtensionData.MoRef, $spec)
