@@ -43,7 +43,7 @@ param(
     [string]$requestor,
 
     [parameter(Mandatory = $false)]
-    [string]$snapshotTime
+    [DateTime]$snapshotTime
 )
 
 # Forcing TLS12
@@ -98,7 +98,6 @@ try {
 
     Write-Log -Message "Checking if snapshot for {0} must be scheduled" -Arguments $Vm -Level INFO    
     if ($Snapshottime -ne $null) {
-        $Snapshottime = [DateTime]$snapshotTime
         $SnapshotName = 'automated scheduled snapshot for {0}' -f $ChangeNR
         $PoweronName = 'Power on {0} for {1}' -f ($Vm,$ChangeNR)
         $SnapshotDescription = 'automated scheduled snapshot of {0} for {1} created on {2} UTC' -f ($Vm, $requestor, $SnapshotTime)
