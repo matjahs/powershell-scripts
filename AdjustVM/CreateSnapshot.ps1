@@ -97,7 +97,7 @@ try {
     }
 
     Write-Log -Message "Checking if snapshot for {0} must be scheduled" -Arguments $Vm -Level INFO    
-    if ($Snapshottime -ne null) {
+    if ($Snapshottime -ne "empty") {
         $Snapshottime = [DateTime]$snapshottime
         $SnapshotName = 'automated scheduled snapshot for {0}' -f $ChangeNR
         $PoweronName = 'Power on {0} for {1}' -f ($Vm,$ChangeNR)
@@ -136,7 +136,7 @@ try {
         Write-Log -Message "Scheduled Power on for VM {0} successfully." -Arguments $Vm -Level INFO
     }    
  
-   elseif ($snapshotTime -eq null) {    
+   elseif ($snapshotTime -eq "empty") {    
         $SnapshotName = 'automated snapshot for {0}' -f $ChangeNR
         $SnapshotDescription = 'automated snapshot of {0} for {1} created on {2}' -f $Vm, $requestor, ($(Get-Date))
         Write-Log -Message "Creating snapshot for {0}" -Arguments $Vm -Level INFO
