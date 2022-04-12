@@ -16,7 +16,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\CreateSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -scheduled $(form_snapshot_schedule) -snapshotTime "$(form_snapshot_time)"'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -snapshotTime "$(form_datetime)"'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Create' )
       - task: PowerShell@2
