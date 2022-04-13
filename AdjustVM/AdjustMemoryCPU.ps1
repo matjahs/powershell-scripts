@@ -5,7 +5,7 @@ This script is used to automate the adjustment of CPU and/or Memory of servers.
 .NOTES
 Author       		: Emile Cox
 Last Modified		: 2021-November-17
-Used Modules 		: VMware.VimAutomation.Core / RemedyForce
+Used Modules 		: VMware.VimAutomation.Core / Topdesk
 Requirements 		: HotAdd CPU and Memory enabled
 Version      		: 0.1
 Version info		: - Script creation
