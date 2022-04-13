@@ -16,7 +16,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\CreateSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -snapshotTime "$(form_datetime)" -scheduled $(form_snapshot_schedule)'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -snapshotTime "$(form_datetime)" -scheduled $(form_snapshot_scheduled)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Create' )
       - task: PowerShell@2
@@ -24,7 +24,7 @@ jobs:
         inputs:
           targetType: filePath
           filePath: '$(build.sourcesDirectory)\AdjustVM\RemoveSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -scheduled $(form_snapshot_schedule)'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -scheduled $(form_snapshot_scheduled)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
         condition: eq(variables['form_input'], 'Remove' )
       - task: PowerShell@2
