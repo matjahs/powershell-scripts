@@ -5,13 +5,13 @@ This script is used to automate the revert of a Snapshot of server.
 .NOTES
 Author       		: Emile Cox
 Last Modified		: 2021-November-18
-Used Modules 		: VMware.VimAutomation.Core / RemedyForce
+Used Modules 		: VMware.VimAutomation.Core / Topdesk
 Requirements 		: 
 Version      		: 0.1
 Version info		: - Script creation
 
 .EXAMPLE
-PS 'S:\Build\VSTS\r14\a\AdjustVM\drop\ReverSnapshot.ps1' -VMname INFRATST402 -vcusername *** -vcpassword *** -targetenvironment DEV -ChangeNR CR01234567 -CreateSnapshotChangeNR CR01234566 -CMDB_linkedapplication tstwin -form_selected_application -tstwin
+PS 'S:\Build\VSTS\r14\a\AdjustVM\drop\ReverSnapshot.ps1' -VMname INFRATST402 -vcusername *** -vcpassword *** -targetenvironment DEV -ChangeNR CR01234567 -CreateSnapshotChangeNR CR01234566
 
 Description
 ----------
