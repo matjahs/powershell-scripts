@@ -49,10 +49,7 @@ param(
     [string]$scheduledTime,
 
     [parameter(Mandatory = $false)]
-    [string]$znumber,
-
-    [parameter(Mandatory = $false)]
-    [string]$CMDB_maintenance_window
+    [string]$znumber
 )
 
 # Forcing TLS12
