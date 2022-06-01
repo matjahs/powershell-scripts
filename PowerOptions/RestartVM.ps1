@@ -11,11 +11,11 @@ Version      		: 1.0
 Version info		: - Script creation
 
 .EXAMPLE
-PS 'S:\Build\VSTS\r14\a\AdjustVM\drop\Restartvm.ps1' -VmName INFRATST402 -vcusername *** -vcpassword *** -targetenvironment DEV
+PS 'S:\Build\VSTS\r14\a\AdjustVM\drop\Restartvm.ps1' -VmName UMCECOXT01 -vcusername *** -vcpassword *** -targetenvironment DEV
 
 Description
 -----------
-This script will connect to vCenter to restart a VM. It will check if the OS is supported and uses VMware tools do perform a clean restart.
+This script will connect to vCenter to restart a VM. It will check if the OS is supported and uses VMware tools to perform a clean restart.
 #>
 
 [CmdletBinding()]
