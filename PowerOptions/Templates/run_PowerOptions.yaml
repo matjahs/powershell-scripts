@@ -4,42 +4,42 @@ parameters:
   - name: topdesk_environment
 
 jobs:
-  - job: Snapshot
-    displayName: Trigger Snapshot on ${{ parameters.ado_targetplatform }}
+  - job: PowerOptions
+    displayName: Trigger PowerOptions on ${{ parameters.ado_targetplatform }}
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
       name: RadboudUMC On-premise
     steps:
       - checkout: self
       - task: PowerShell@2
-        displayName: 'Create Snapshot'
+        displayName: 'Restart Server'
         inputs:
           targetType: filePath
-          filePath: '$(build.sourcesDirectory)\AdjustVM\CreateSnapshot.ps1'
-          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -snapshotTime "$(form_datetime)" -scheduled $(form_snapshot_scheduled)'
-          workingDirectory: $(build.sourcesDirectory)\AdjustVM
-        condition: eq(variables['form_input'], 'Create' )
+          filePath: '$(build.sourcesDirectory)\PowerOptions\RestartVM.ps1'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -ScheduledTime "$(form_datetime)" -scheduled $(form_restart_scheduled) -znumber $(Znumber)'
+          workingDirectory: $(build.sourcesDirectory)\PowerOptions
+        condition: eq(variables['form_input'], 'Restart' )
       - task: PowerShell@2
-        displayName: 'Remove Snapshot'
+        displayName: 'Shutdown Server'
         inputs:
           targetType: filePath
-          filePath: '$(build.sourcesDirectory)\AdjustVM\RemoveSnapshot.ps1'
+          filePath: '$(build.sourcesDirectory)\PowerOptions\RestartVM.ps1'
           arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -scheduled $(form_snapshot_scheduled)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
-        condition: eq(variables['form_input'], 'Remove' )
+        condition: eq(variables['form_input'], 'Shutdown' )
       - task: PowerShell@2
-        displayName: 'Revert Snapshot'
+        displayName: 'Start Server'
         inputs:
           targetType: filePath
-          filePath: '$(build.sourcesDirectory)\AdjustVM\RevertSnapshot.ps1'
+          filePath: '$(build.sourcesDirectory)\PowerOptions\RestartVM.ps1'
           arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
           workingDirectory: $(build.sourcesDirectory)\AdjustVM
-        condition: eq(variables['form_input'], 'Revert' )
+        condition: eq(variables['form_input'], 'Start' )
   - job: UpdateTopdesk
-    dependsOn: Snapshot
+    dependsOn: PowerOptions
     condition: always()
     variables:
-      SnapshotResult: $[ dependencies.Snapshot.result ]
+      PowerOptions: $[ dependencies.PowerOptions.result ]
     pool: server
     steps:
      - task: InvokeRESTAPI@1
@@ -57,7 +57,7 @@ jobs:
             {
                "op": "add",
                "path": "/progressTrail",
-               "value": "Snapshot activiteit is geslaagd"
+               "value": "Server Herstart activiteit is geslaagd"
             },   
             {
                "op": "replace",
@@ -67,7 +67,7 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(Activiteitnummer)'
          waitForCompletion: 'false'
-       condition: in(variables['SnapshotResult'], 'Succeeded')
+       condition: in(variables['PowerOptions'], 'Succeeded')
      - task: InvokeRESTAPI@1
        displayName: 'Activiteit mislukt'
        inputs:
@@ -83,7 +83,7 @@ jobs:
             {
                "op": "add",
                "path": "/progressTrail",
-               "value": "Snapshot aanmaken of verwijderen is mislukt, controleer de pipeline in Azure Devops voor meer informatie. https://dev.azure.com/RadboudumcIT/Informatie%20Management/_build?definitionId=81&_a=summary"
+               "value": "Herstart is mislukt, controleer de pipeline in Azure Devops voor meer informatie. https://dev.azure.com/RadboudumcIT/Informatie%20Management/_build?definitionId=81&_a=summary"
             },
             {
                "op": "replace",
@@ -93,7 +93,7 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChangeActivities/$(Activiteitnummer)'
          waitForCompletion: 'false'
-       condition: in(variables['SnapshotResult'], 'SucceededWithIssues', 'Failed')
+       condition: in(variables['PowerOptions'], 'SucceededWithIssues', 'Failed')
      - task: InvokeRESTAPI@1
        displayName: 'Change afsluiten'
        inputs:
@@ -109,7 +109,7 @@ jobs:
             {
                "op": "add",
                "path": "/progressTrail",
-               "value": "Snapshot wijziging is afgerond"
+               "value": "Server Herstart wijziging is afgerond"
             },  
             {
                "op": "replace",
@@ -119,4 +119,4 @@ jobs:
           ]
          urlSuffix: 'tas/api/operatorChanges/$(Changenummer)'
          waitForCompletion: 'false'
-       condition: and(in(variables['SnapshotResult'], 'Succeeded'), in(variables['form_input'], 'Remove', 'Revert'))
+       condition: in(variables['PowerOptions'], 'Succeeded')
