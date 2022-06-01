@@ -1,7 +1,7 @@
 ---
 # Pipelines variables
 
-name: PowerOptions$(Changenummer)
+name: PowerOptions_$(Changenummer)
 pr: none # will disable PR builds (but not CI builds)
 
 variables:
