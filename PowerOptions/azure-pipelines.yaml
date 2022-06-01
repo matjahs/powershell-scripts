@@ -1,0 +1,30 @@
+---
+# Pipelines variables
+
+name: PowerOptions$(Changenummer)
+pr: none # will disable PR builds (but not CI builds)
+
+variables:
+- name: VSTS_ARM_REST_IGNORE_SSL_ERRORS
+  value: true
+- name: generic_branch 
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    value: main
+  ${{ if ne(variables['Build.SourceBranchName'], 'main') }}:
+    value: dev
+
+stages:
+  - stage: TEST_POWEROPTIONS
+    condition: and(eq(variables['test'], 'true' ), ne(variables['Build.SourceBranchName'], 'main') )   
+    jobs:
+    - template: Templates/run_PowerOptions.yaml 
+      parameters:
+        ado_targetplatform: 'test'
+        topdesk_environment: 'dev'
+  - stage: DTAP_POWEROPTIONS
+    condition: and( eq(variables['test'], 'false' ) , eq(variables['Build.SourceBranchName'], 'main') )
+    jobs:
+    - template: Templates/run_PowerOptions.yaml
+      parameters:
+        ado_targetplatform: 'dtap'
+        topdesk_environment: 'prd'

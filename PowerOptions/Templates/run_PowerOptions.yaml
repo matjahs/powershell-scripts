@@ -1,0 +1,122 @@
+---
+parameters:
+  - name: ado_targetplatform
+  - name: topdesk_environment
+
+jobs:
+  - job: PowerOptions
+    displayName: Trigger PowerOptions on ${{ parameters.ado_targetplatform }}
+    timeoutInMinutes: 0 # Forever on on-premises agents
+    pool:
+      name: RadboudUMC On-premise
+    steps:
+      - checkout: self
+      - task: PowerShell@2
+        displayName: 'Restart Server'
+        inputs:
+          targetType: filePath
+          filePath: '$(build.sourcesDirectory)\PowerOptions\RestartVM.ps1'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -requestor "$(TopdeskInitiator)" -ScheduledTime "$(form_datetime)" -scheduled $(form_restart_scheduled) -znumber $(Znumber)'
+          workingDirectory: $(build.sourcesDirectory)\PowerOptions
+        condition: eq(variables['form_input'], 'Restart' )
+      - task: PowerShell@2
+        displayName: 'Shutdown Server'
+        inputs:
+          targetType: filePath
+          filePath: '$(build.sourcesDirectory)\PowerOptions\RestartVM.ps1'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -scheduled $(form_snapshot_scheduled)'
+          workingDirectory: $(build.sourcesDirectory)\AdjustVM
+        condition: eq(variables['form_input'], 'Shutdown' )
+      - task: PowerShell@2
+        displayName: 'Start Server'
+        inputs:
+          targetType: filePath
+          filePath: '$(build.sourcesDirectory)\PowerOptions\RestartVM.ps1'
+          arguments: '-VMname $(form_servername) -vcusername $(vcusername) -vcpassword $(vcpassword) -targetenvironment ${{ parameters.topdesk_environment}} -ChangeNR "$(Changenummer)" -CreateSnapshotChangeNR $(form_createsnapshot_changeNR)'
+          workingDirectory: $(build.sourcesDirectory)\AdjustVM
+        condition: eq(variables['form_input'], 'Start' )
+  - job: UpdateTopdesk
+    dependsOn: PowerOptions
+    condition: always()
+    variables:
+      PowerOptions: $[ dependencies.PowerOptions.result ]
+    pool: server
+    steps:
+     - task: InvokeRESTAPI@1
+       displayName: 'Activiteit afsluiten'
+       inputs:
+         connectionType: 'connectedServiceName'
+         serviceConnection: 'TopDesk API'
+         method: 'PATCH'
+         headers: |
+            {
+              "Content-Type": "application/json-patch+json"
+            }
+         body: |
+          [ 
+            {
+               "op": "add",
+               "path": "/progressTrail",
+               "value": "Server Herstart activiteit is geslaagd"
+            },   
+            {
+               "op": "replace",
+               "path": "/status",
+               "value": "Afgerond"
+            }
+          ]
+         urlSuffix: 'tas/api/operatorChangeActivities/$(Activiteitnummer)'
+         waitForCompletion: 'false'
+       condition: in(variables['PowerOptions'], 'Succeeded')
+     - task: InvokeRESTAPI@1
+       displayName: 'Activiteit mislukt'
+       inputs:
+         connectionType: 'connectedServiceName'
+         serviceConnection: 'TopDesk API'
+         method: 'PATCH'
+         headers: |
+            {
+              "Content-Type": "application/json-patch+json"
+            }
+         body: |
+          [  
+            {
+               "op": "add",
+               "path": "/progressTrail",
+               "value": "Herstart is mislukt, controleer de pipeline in Azure Devops voor meer informatie. https://dev.azure.com/RadboudumcIT/Informatie%20Management/_build?definitionId=81&_a=summary"
+            },
+            {
+               "op": "replace",
+               "path": "/status",
+               "value": "Reactie ontvangen"
+            }
+          ]
+         urlSuffix: 'tas/api/operatorChangeActivities/$(Activiteitnummer)'
+         waitForCompletion: 'false'
+       condition: in(variables['PowerOptions'], 'SucceededWithIssues', 'Failed')
+     - task: InvokeRESTAPI@1
+       displayName: 'Change afsluiten'
+       inputs:
+         connectionType: 'connectedServiceName'
+         serviceConnection: 'TopDesk API'
+         method: 'PATCH'
+         headers: |
+            {
+              "Content-Type": "application/json-patch+json"
+            }
+         body: |
+          [ 
+            {
+               "op": "add",
+               "path": "/progressTrail",
+               "value": "Server Herstart wijziging is afgerond"
+            },  
+            {
+               "op": "replace",
+               "path": "/status",
+               "value": "Afgerond"
+            }
+          ]
+         urlSuffix: 'tas/api/operatorChanges/$(Changenummer)'
+         waitForCompletion: 'false'
+       condition: in(variables['PowerOptions'], 'Succeeded')
