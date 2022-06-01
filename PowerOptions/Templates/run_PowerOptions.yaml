@@ -83,7 +83,7 @@ jobs:
             {
                "op": "add",
                "path": "/progressTrail",
-               "value": "Herstart is mislukt, controleer de pipeline in Azure Devops voor meer informatie. https://dev.azure.com/RadboudumcIT/Informatie%20Management/_build?definitionId=81&_a=summary"
+               "value": "Herstart is mislukt, controleer de pipeline in Azure Devops voor meer informatie. https://dev.azure.com/RadboudumcIT/Informatie%20Management/_build?definitionId=91&_a=summary"
             },
             {
                "op": "replace",
