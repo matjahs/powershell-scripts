@@ -71,7 +71,7 @@ $Permissions = get-adgroupmember -identity "DLG.IM.Serverbeheer.$VMname"
 if ("$permissions.SamAccountName" -match "$znumber") 
     {Write-Log -Message "Requester has administrator permissions on the server, continuing request"}
 else 
-    {Write-Log -Message "Requester doesn't have administrator permissions on this server, abonding request"}
+    {throw "Requester doesn't have administrator permissions on this server, abonding request"}
 
 # Define target environment
 switch ( $targetenvironment ) {
