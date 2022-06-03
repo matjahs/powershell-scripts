@@ -7,11 +7,6 @@ pr: none # will disable PR builds (but not CI builds)
 variables:
 - name: VSTS_ARM_REST_IGNORE_SSL_ERRORS
   value: true
-- name: generic_branch 
-  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
-    value: main
-  ${{ if ne(variables['Build.SourceBranchName'], 'main') }}:
-    value: dev
 
 stages:
   - stage: TEST_CPUMEM
@@ -21,6 +16,7 @@ stages:
       parameters:
         ado_targetplatform: 'test'
         topdesk_environment: 'dev'
+        serviceconnection: 'TopDesk API (ACC)'
   - stage: DTAP_CPUMEM
     condition: and( eq(variables['test'], 'false' ) , eq(variables['Build.SourceBranchName'], 'main'), ne(variables['form_cpu'], ''), ne(variables['form_memory'], '') )
     jobs:
@@ -28,6 +24,7 @@ stages:
       parameters:
         ado_targetplatform: 'dtap'
         topdesk_environment: 'prd'
+        serviceconnection: 'TopDesk API'
   - stage: TEST_SNAPSHOT
     condition: and(eq(variables['test'], 'true' ), ne(variables['Build.SourceBranchName'], 'main'), contains(variables['form_snapshot_type'], 'Snapshot') )   
     jobs:
@@ -35,6 +32,7 @@ stages:
       parameters:
         ado_targetplatform: 'test'
         topdesk_environment: 'dev'
+        serviceconnection: 'TopDesk API (ACC)'
   - stage: DTAP_SNAPSHOT
     condition: and( eq(variables['test'], 'false' ) , eq(variables['Build.SourceBranchName'], 'main'), contains(variables['form_snapshot_type'], 'Snapshot') )
     jobs:
@@ -42,3 +40,4 @@ stages:
       parameters:
         ado_targetplatform: 'dtap'
         topdesk_environment: 'prd'
+        serviceconnection: 'TopDesk API'
