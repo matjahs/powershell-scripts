@@ -11,11 +11,11 @@ Version      		: 1.0
 Version info		: - Script creation
 
 .EXAMPLE
-PS 'S:\Build\VSTS\r14\a\AdjustVM\drop\Restartvm.ps1' -VmName INFRATST402 -vcusername *** -vcpassword *** -targetenvironment DEV
+PS 'S:\Build\VSTS\r14\a\AdjustVM\drop\Restartvm.ps1' -VmName UMCECOXT01 -vcusername *** -vcpassword *** -targetenvironment DEV
 
 Description
 -----------
-This script will connect to vCenter to restart a VM. It will check if the OS is supported and uses VMware tools do perform a clean restart.
+This script will connect to vCenter to restart a VM. It will check if the OS is supported and uses VMware tools to perform a clean restart.
 #>
 
 [CmdletBinding()]
@@ -71,7 +71,7 @@ $Permissions = get-adgroupmember -identity "DLG.IM.Serverbeheer.$VMname"
 if ("$permissions.SamAccountName" -match "$znumber") 
     {Write-Log -Message "Requester has administrator permissions on the server, continuing request"}
 else 
-    {Write-Log -Message "Requester doesn't have administrator permissions on this server, abonding request"}
+    {throw "Requester doesn't have administrator permissions on this server, abonding request"}
 
 # Define target environment
 switch ( $targetenvironment ) {
