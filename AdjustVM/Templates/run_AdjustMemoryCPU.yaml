@@ -2,6 +2,7 @@
 parameters:
   - name: ado_targetplatform
   - name: topdesk_environment
+  - name: serviceconnection
 
 jobs:
   - job:
