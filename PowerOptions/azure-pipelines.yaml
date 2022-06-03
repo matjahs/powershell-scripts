@@ -21,10 +21,11 @@ stages:
       parameters:
         ado_targetplatform: 'test'
         topdesk_environment: 'dev'
+        serviceconnection: 'TopDesk API (ACC)'
   - stage: DTAP_POWEROPTIONS
     condition: and( eq(variables['test'], 'false' ) , eq(variables['Build.SourceBranchName'], 'main') )
     jobs:
     - template: Templates/run_PowerOptions.yaml
       parameters:
         ado_targetplatform: 'dtap'
-        topdesk_environment: 'prd'
+        serviceconnection: 'TopDesk API'
