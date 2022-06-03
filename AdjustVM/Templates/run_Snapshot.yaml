@@ -47,7 +47,7 @@ jobs:
        displayName: 'Activiteit afsluiten'
        inputs:
          connectionType: 'connectedServiceName'
-         serviceConnection: 'TopDesk API'
+         serviceConnection: ${{ parameters.serviceconnection }}
          method: 'PATCH'
          headers: |
             {
@@ -73,7 +73,7 @@ jobs:
        displayName: 'Activiteit mislukt'
        inputs:
          connectionType: 'connectedServiceName'
-         serviceConnection: 'TopDesk API'
+         serviceConnection: ${{ parameters.serviceconnection }}
          method: 'PATCH'
          headers: |
             {
@@ -99,7 +99,7 @@ jobs:
        displayName: 'Change afsluiten'
        inputs:
          connectionType: 'connectedServiceName'
-         serviceConnection: 'TopDesk API'
+         serviceConnection: ${{ parameters.serviceconnection }}
          method: 'PATCH'
          headers: |
             {
