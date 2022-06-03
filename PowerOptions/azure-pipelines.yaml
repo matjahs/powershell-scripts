@@ -28,4 +28,5 @@ stages:
     - template: Templates/run_PowerOptions.yaml
       parameters:
         ado_targetplatform: 'dtap'
+        topdesk_environment: 'prd'
         serviceconnection: 'TopDesk API'
