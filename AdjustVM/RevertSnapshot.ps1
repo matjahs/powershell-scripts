@@ -49,13 +49,13 @@ param(
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 
 
 # Import required modules
-$env:PSModulePath = "$(Resolve-Path '.\Modules');" + $env:PSModulePath
+# $env:PSModulePath = "$(Resolve-Path '.\Modules');" + $env:PSModulePath
 
 Import-Module VMware.VimAutomation.Core
-Import-Module RemedyForce
+Import-Module Logging
 
 # Define Logging Options, Please not that the logging to file is optional
-Add-LoggingTarget -Name AzureDevOpsConsole -Configuration @{Level = 'DEBUG' }
+Add-LoggingTarget -Name Console -Configuration @{Level = 'DEBUG' }
 
 # Check if requester has permissions to restart this server
 $Permissions = get-adgroupmember -identity "DLG.IM.Serverbeheer.$VMname" -Recursive
