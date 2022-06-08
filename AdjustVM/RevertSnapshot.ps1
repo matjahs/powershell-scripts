@@ -40,7 +40,10 @@ param(
     [string]$ChangeNR,
 
     [parameter(Mandatory = $true)]
-    [string]$CreateSnapshotChangeNR
+    [string]$CreateSnapshotChangeNR,
+    
+    [parameter(Mandatory = $false)]
+    [string]$znumber
 )
 # Forcing TLS12
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 
@@ -53,6 +56,13 @@ Import-Module RemedyForce
 
 # Define Logging Options, Please not that the logging to file is optional
 Add-LoggingTarget -Name AzureDevOpsConsole -Configuration @{Level = 'DEBUG' }
+
+# Check if requester has permissions to restart this server
+$Permissions = get-adgroupmember -identity "DLG.IM.Serverbeheer.$VMname" -Recursive
+if ("$permissions.SamAccountName" -match "$znumber") 
+    {Write-Log -Message "Requester has administrator permissions on the server, continuing request"}
+else 
+    {throw "Requester doesn't have administrator permissions on this server, abonding request"}
 
 # Define target environment
 switch ( $targetenvironment ) {
