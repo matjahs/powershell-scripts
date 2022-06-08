@@ -67,7 +67,7 @@ Import-Module Logging
 Add-LoggingTarget -Name Console -Configuration @{Level = 'DEBUG' }
 
 # Check if requester has permissions to restart this server
-$Permissions = get-adgroupmember -identity "DLG.IM.Serverbeheer.$VMname"
+$Permissions = get-adgroupmember -identity "DLG.IM.Serverbeheer.$VMname" -Recursive
 if ("$permissions.SamAccountName" -match "$znumber") 
     {Write-Log -Message "Requester has administrator permissions on the server, continuing request"}
 else 
