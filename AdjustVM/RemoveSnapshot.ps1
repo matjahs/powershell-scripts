@@ -4,10 +4,10 @@ This script is used to automate the creation of Snapshot of servers.
 
 .NOTES
 Author       		: Emile Cox
-Last Modified		: 2022-April-13
+Last Modified		: 2022-june-9
 Used Modules 		: VMware.VimAutomation.Core / Topdesk
 Requirements 		: 
-Version      		: 0.1
+Version      		: 0.9
 Version info		: - Script creation
 
 .EXAMPLE
