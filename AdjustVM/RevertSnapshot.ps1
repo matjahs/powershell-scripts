@@ -4,10 +4,10 @@ This script is used to automate the revert of a Snapshot of server.
 
 .NOTES
 Author       		: Emile Cox
-Last Modified		: 2021-November-18
+Last Modified		: 2022-June-9
 Used Modules 		: VMware.VimAutomation.Core / Topdesk
 Requirements 		: 
-Version      		: 0.1
+Version      		: 0.9
 Version info		: - Script creation
 
 .EXAMPLE
