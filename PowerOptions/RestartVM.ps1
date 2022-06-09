@@ -46,7 +46,7 @@ param(
     [string]$scheduled,
 
     [parameter(Mandatory = $false)]
-    [string]$scheduledTime,
+    [datetime]$scheduledTime,
 
     [parameter(Mandatory = $false)]
     [string]$znumber
