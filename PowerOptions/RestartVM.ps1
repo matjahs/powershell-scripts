@@ -143,7 +143,7 @@ try {
                 while ( ( ($Vm = Get-VM -Name $VMname -Server $Server -ErrorAction Stop).PowerState -ne "PoweredOff") -and ($Iteration -le 10) ) {
                     $Iteration++
                     Write-Log -Message "Shutdown Check iteration {0} on {1}" -Arguments @($Iteration, $VM) -Level INFO
-                    start-sleep -Seconds 30
+                    start-sleep -Seconds 60
                 }
 
                 If ( $Iteration -eq 10 ) {
