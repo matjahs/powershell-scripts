@@ -58,7 +58,7 @@ jobs:
             {
                "op": "add",
                "path": "/progressTrail",
-               "value": "Snapshot activiteit is geslaagd"
+               "value": "Snapshot is succesvol aangemaakt of gepland"
             },   
             {
                "op": "replace",
