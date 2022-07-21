@@ -10,7 +10,6 @@ jobs:
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
       name: RadboudUMC On-premise
-      vmImage: 'ubuntu-latest'
     steps:
       - checkout: self
       - task: PowerShell@2
