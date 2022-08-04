@@ -76,7 +76,7 @@ else
 # Define target environment
 switch ( $targetenvironment ) {
     "DEV" {
-        $Vcenters = @("umcvct01.umcn.nl")
+        $Vcenters = @("umcvct01.umcn.nl", "umcvct02.umcn.nl")
         Write-Log -Message "The following vCenter servers have been filtered {0}" -Arguments ( $Vcenters -join ", " )  -Level DEBUG
     }
     "PRD" {
