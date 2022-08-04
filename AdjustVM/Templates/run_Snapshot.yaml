@@ -9,7 +9,7 @@ jobs:
     displayName: Trigger Snapshot on ${{ parameters.ado_targetplatform }}
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
-      name: RadboudUMC On-premise
+      name: RadboudUMC On-premise Windows
     steps:
       - checkout: self
       - task: PowerShell@2
