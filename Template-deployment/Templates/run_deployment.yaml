@@ -8,7 +8,7 @@ jobs:
     displayName: Trigger Template Deployment on ${{ parameters.ado_targetplatform }}
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
-      name: Radboudumc On-premise Linux
+      name: 'RadboudUMC On-premise Linux'
     steps:
       - checkout: self
 

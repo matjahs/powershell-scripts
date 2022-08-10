@@ -4,6 +4,9 @@
 name: DeployTemplate
 pr: none # will disable PR builds (but not CI builds)
 
+pool:
+  name: 'RadboudUMC On-premise Linux'
+
 variables:
 - name: VSTS_ARM_REST_IGNORE_SSL_ERRORS
   value: true
@@ -15,7 +18,7 @@ variables:
 
 stages:
   - stage: TEST_Deployment
-    condition: and(eq(variables['test'], 'true' ), ne(variables['Build.SourceBranchName'], 'main') )   
+    condition: and(eq(variables['test'], 'true' ), ne(variables['Build.SourceBranchName'], 'main') )
     jobs:
     - template: Templates/run_deployment.yaml 
       parameters:
