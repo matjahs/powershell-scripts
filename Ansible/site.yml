@@ -1,0 +1,8 @@
+---
+- name: configure host to clone, and serve, a Git repository containing web content
+  hosts: all
+  roles:
+#    - chocolatey
+#    - git
+    - iis
+#    - web_content
