@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  dockeragent:
+    image: dockeragent:latest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./work:/azp/work:cached
+    environment:
+      AZP_URL: https://dev.azure.com/RadboudumcIT
+      AZP_TOKEN: /run/secrets/az_token
+      AZP_AGENT_NAME: umcadop01-docker
+      AZP_POOL: RadboudUMC On-premise Linux
+      AZP_WORK: /data/azagent/work
+    secrets:
+      - az_token
+
+secrets:
+  az_token:
+    file: az_token.txt
+
