@@ -8,13 +8,23 @@ jobs:
     displayName: Trigger Template Deployment on ${{ parameters.ado_targetplatform }}
     timeoutInMinutes: 0 # Forever on on-premises agents
     pool:
-      name: RadboudUMC On-premise Windows
+      name: Radboudumc On-premise Linux
     steps:
       - checkout: self
-      - task: Powershell@2
-        displayName: 'Template Deployment'
-        inputs:
-          targetType: filePath
-          filePath: '$(build.sourcesDirectory)\Packer\run-packer.ps1'
-          arguments: '-vsphere_user $(vcusername) -vsphere_password $(vcpassword) -vmname $(VMname) -targetenvironment ${{ parameters.environment}}'
-          workingDirectory: $(build.sourcesDirectory)\Packer
+
+      - script: packer init .
+        workingDirectory: Packer/Win2019
+        displayName: Packer init
+
+      - script: packer validate -var-file="tst.pkrvars.hcl" -syntax-only .
+        workingDirectory: Packer/Win2019
+        displayName: Validate
+
+      - script: |
+          packer build -on-error=abort \
+            -var-file="tst.pkrvars.hcl" \
+            --var vsphere_user=$(vcusername) \
+            --var vm_name=$(VMname) \
+            .
+        workingDirectory: Packer/Win2019
+        displayName: Build
